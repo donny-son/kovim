@@ -6,7 +6,7 @@ Fixes the most common frustration when writing Korean in Vim:
 
 ```
 Korean insert mode → press Esc → normal-mode keys (hjkl, w, :, /) work immediately
-Enter insert mode → previous Korean IME restored automatically
+Re-enter insert mode → the IME you were last typing in is restored automatically
 ```
 
 ---
@@ -41,11 +41,11 @@ Even without any editor plugin, the global key watcher alone handles:
 
 | Scenario | Works |
 |---|---|
-| Neovim in iTerm2, Terminal, Warp, Alacritty, WezTerm, Kitty | ✓ |
+| Neovim in iTerm2, Terminal, Warp, Alacritty, WezTerm, Kitty, Ghostty | ✓ |
 | VSCode + VSCodeVim | ✓ |
 | Neovim over SSH in any of those terminals | ✓ |
 
-Editor plugins add reliable **insert-mode restoration** (restoring Korean when you press `i`/`a`/`o`).
+Editor plugins add reliable **insert-mode restoration** — when you press `i`/`a`/`o` the IME from your last insert session comes back: Korean if you were typing Korean, English if you were typing English.
 
 ---
 
@@ -147,7 +147,7 @@ require("kovim").setup({
   endpoint = "http://127.0.0.1:57321",   -- kovim-agent API
   enabled  = true,
 
-  restore_on_insert              = true, -- restore Korean on InsertEnter
+  restore_on_insert              = true, -- restore previous IME on InsertEnter
   force_english_on_insert_leave  = true, -- switch to English on InsertLeave
   force_english_on_cmdline_enter = true, -- switch to English on : / ?
 
@@ -169,7 +169,7 @@ require("kovim").setup({
 
 The global Esc watcher fires locally, so IME switches to English even when you are inside a remote Neovim session over SSH. No configuration is needed for the basic case.
 
-For full mode-aware restoration over SSH (restoring Korean when entering insert mode remotely), forward the agent port:
+For full mode-aware restoration over SSH (restoring your previous IME when entering insert mode remotely), forward the agent port:
 
 ```bash
 # One-time
@@ -230,11 +230,16 @@ The agent config lives at `~/.config/kovim/config.json` and is created with defa
     "com.googlecode.iterm2",
     "com.apple.Terminal",
     "dev.warp.Warp-Stable",
+    "dev.warp.Warp",
     "org.alacritty",
+    "io.alacritty",
     "com.github.wez.wezterm",
+    "com.github.wez.WezTerm",
+    "com.mitchellh.ghostty",
     "net.kovidgoyal.kitty",
     "com.microsoft.VSCode",
-    "com.microsoft.VSCodeInsiders"
+    "com.microsoft.VSCodeInsiders",
+    "com.visualstudio.code.oss"
   ],
   "debugLogging": false,
   "enableLocalServer": true,
@@ -273,8 +278,8 @@ The agent exposes a simple HTTP API on `127.0.0.1:57321`:
 | `GET` | `/health` | Health check + current state |
 | `GET` | `/ime/current` | Current IME state |
 | `GET` | `/ime/sources` | List selectable input sources |
-| `POST` | `/mode/normal` | Save current IME → switch to English |
-| `POST` | `/mode/insert` | Restore previous IME |
+| `POST` | `/mode/normal` | Snapshot the insert-mode IME → switch to English |
+| `POST` | `/mode/insert` | Restore the snapshotted IME (English or Korean) |
 | `POST` | `/ime/english` | Force English |
 | `POST` | `/ime/restore` | Restore previous |
 
