@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Swift / SwiftPM build output
+.build/
+
+# VSCode extension build artifacts
+vscode/node_modules/
+vscode/out/
+*.vsix

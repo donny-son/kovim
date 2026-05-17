@@ -1,0 +1,80 @@
+{
+  "name": "kovim",
+  "displayName": "KoVim",
+  "description": "Automatic Korean/English IME switching for Korean-English Vim users on macOS",
+  "version": "0.1.0",
+  "publisher": "earendil",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "korean",
+    "ime",
+    "vim",
+    "input method",
+    "한국어"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kovim.modeNormal",
+        "title": "KoVim: Switch IME to English (Normal Mode)"
+      },
+      {
+        "command": "kovim.modeInsert",
+        "title": "KoVim: Restore Previous IME (Insert Mode)"
+      },
+      {
+        "command": "kovim.showStatus",
+        "title": "KoVim: Show IME Status"
+      },
+      {
+        "command": "kovim.setupVSCodeVim",
+        "title": "KoVim: Set Up VSCodeVim Integration"
+      }
+    ],
+    "configuration": {
+      "title": "KoVim",
+      "properties": {
+        "kovim.endpoint": {
+          "type": "string",
+          "default": "http://127.0.0.1:57321",
+          "description": "kovim-agent local API endpoint"
+        },
+        "kovim.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic IME switching"
+        },
+        "kovim.restorePreviousOnInsert": {
+          "type": "boolean",
+          "default": true,
+          "description": "Restore previous IME when entering insert mode"
+        },
+        "kovim.debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show debug output in the KoVim output channel"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
