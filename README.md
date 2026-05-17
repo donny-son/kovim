@@ -1,6 +1,6 @@
 # KoVim
 
-> Automatic Korean ↔ English IME switching for Korean–English Vim users on macOS.
+> Automatic Korean ↔ English IME switching for Korean–English Neovim, VSCode Vim plugin users on macOS.
 
 Fixes the most common frustration when writing Korean in Vim:
 
@@ -29,9 +29,9 @@ Re-enter insert mode → the IME you were last typing in is restored automatical
  │  (Lua)        │                   │  (TypeScript)       │
  │               │                   │                     │
  │ InsertLeave   │                   │ Esc / Ctrl-[        │
- │   → /mode/normal                  │   → /mode/normal    │
+ │ → /mode/normal│                   │ → /mode/normal      │
  │ InsertEnter   │                   │ i / a / o / s / c   │
- │   → /mode/insert                  │   → /mode/insert    │
+ │ → /mode/insert│                   │   → /mode/insert    │
  └───────────────┘                   └─────────────────────┘
 ```
 
@@ -45,14 +45,14 @@ Even without any editor plugin, the global key watcher alone handles:
 | VSCode + VSCodeVim | ✓ |
 | Neovim over SSH in any of those terminals | ✓ |
 
-Editor plugins add reliable **insert-mode restoration** — when you press `i`/`a`/`o` the IME from your last insert session comes back: Korean if you were typing Korean, English if you were typing English.
+Editor plugins add reliable insert-mode restoration — when you press `i`/`a`/`o` the IME from your last insert session comes back: Korean if you were typing Korean, English if you were typing English.
 
 ---
 
 ## Install
 
 ```bash
-git clone https://github.com/yourname/kovim.git
+git clone https://github.com/donny-son/kovim.git
 cd kovim
 bash scripts/install.sh
 ```
@@ -65,12 +65,12 @@ This will:
 4. Copy `KoVim.app` to `/Applications/`
 5. Launch the agent
 
-The VSCode extension is **not** installed by `install.sh` — run
+The VSCode extension is not installed by `install.sh` — run
 [`scripts/install-vscode.sh`](#vscode-extension) separately if you use VSCode.
 
 ### Editor plugins are optional
 
-`KoVim.app` on its own already switches to **English on `Esc` / `Ctrl-[`** in
+`KoVim.app` on its own already switches to English on `Esc` / `Ctrl-[` in
 every supported terminal and in VSCode — no plugin required. The editor plugins
 add exactly one thing: restoring your **previous IME (e.g. Korean) when you
 re-enter insert mode**, which a global key watcher cannot detect reliably.
@@ -81,8 +81,8 @@ After the first launch, two permissions are required:
 
 | Permission | Where |
 |---|---|
-| **Accessibility** | System Settings → Privacy & Security → Accessibility |
-| **Input Monitoring** | System Settings → Privacy & Security → Input Monitoring |
+| Accessibility | System Settings → Privacy & Security → Accessibility |
+| Input Monitoring | System Settings → Privacy & Security → Input Monitoring |
 
 Enable both for KoVim, then the ⌨︎ KoVim icon will appear in your menu bar.
 
@@ -100,10 +100,10 @@ bash scripts/install-nvim.sh
 
 This copies the plugin to `~/.local/share/nvim/site/pack/kovim/start/kovim`, then:
 
-- **lazy.nvim detected** → writes a spec to `~/.config/nvim/lua/plugins/kovim.lua`.
-  lazy.nvim manages its own runtimepath and does **not** auto-load `site/pack`
+- lazy.nvim detected → writes a spec to `~/.config/nvim/lua/plugins/kovim.lua`.
+  lazy.nvim manages its own runtimepath and does not auto-load `site/pack`
   plugins, so this step is required — without it `setup()` never runs.
-- **No plugin manager** → Neovim auto-loads the plugin from `site/pack`; it
+- No plugin manager → Neovim auto-loads the plugin from `site/pack`; it
   self-initializes via `plugin/kovim.lua`, nothing else to do.
 
 Restart Neovim, then run `:KovimHealth` to verify the autocmds and agent.
@@ -112,7 +112,7 @@ Restart Neovim, then run `:KovimHealth` to verify the autocmds and agent.
 
 If the installer can't locate your config, add the plugin yourself.
 
-**lazy.nvim** — create `~/.config/nvim/lua/plugins/kovim.lua`:
+lazy.nvim — create `~/.config/nvim/lua/plugins/kovim.lua`:
 
 ```lua
 return {
@@ -127,7 +127,7 @@ return {
 }
 ```
 
-**packer.nvim:**
+packer.nvim:
 
 ```lua
 use {
@@ -137,7 +137,7 @@ use {
 }
 ```
 
-**No plugin manager** — nothing to add; the plugin auto-loads. To pass options,
+No plugin manager — nothing to add; the plugin auto-loads. To pass options,
 put `require("kovim").setup({ ... })` in your `init.lua`.
 
 ### Options
@@ -202,7 +202,7 @@ VSCodeVim is present.
 
 Because the extension only uses the `vscode` API and Node built-ins, it is
 installed as a plain folder — no `.vsix` packaging or Marketplace publisher
-account required. **Reload VSCode** afterwards
+account required. Reload VSCode afterwards
 (`Cmd+Shift+P` → `Developer: Reload Window`) to activate it.
 
 ### VSCode settings
@@ -216,7 +216,7 @@ account required. **Reload VSCode** afterwards
 }
 ```
 
-The status bar shows **⌨︎ KoVim** when the agent is connected, **⌨︎ KoVim ✕** when it is offline.
+The status bar shows ⌨︎ KoVim when the agent is connected, ⌨︎ KoVim ✕ when it is offline.
 
 ---
 
