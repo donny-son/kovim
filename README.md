@@ -1,4 +1,4 @@
-# KoVim
+# KoVim 🐽
 
 > Automatic Korean ↔ English IME switching for Korean–English Neovim, VSCode Vim plugin users on macOS.
 
