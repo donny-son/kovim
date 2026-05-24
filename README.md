@@ -152,8 +152,59 @@ require("kovim").setup({
   force_english_on_cmdline_enter = true, -- switch to English on : / ?
 
   debug = false,                         -- print debug notifications
+
+  banner = {
+    enabled  = true,
+    position = "sign",   -- see "Banner" below for all positions
+    style    = "flag",   -- "text" (EN/한/あ/中) or "flag" (🇺🇸/🇰🇷/🇯🇵/🇨🇳)
+  },
 })
 ```
+
+### Banner
+
+While in insert mode, kovim can show the current IME language on screen and
+flash a color when it changes. It polls the agent every 250 ms (configurable)
+and updates the indicator wherever you placed it.
+
+```lua
+banner = {
+  enabled       = true,
+  position      = "sign",  -- see table below
+  style         = "text",  -- "text" or "flag"
+  labels        = {},      -- override individual labels, e.g. { korean = "🇰🇷" }
+  interval_ms   = 250,
+  flash_ms      = 500,
+  padding_row   = 2,       -- float modes only
+  padding_col   = 2,       -- float modes only
+  inline_prefix = "  ",    -- inline / right_align only
+  border        = "rounded", -- float modes only
+  sign_priority = 200,     -- sign mode only; lower (e.g. 5) to defer to gitsigns
+}
+```
+
+**Position values**
+
+| `position`     | Looks like                                                   |
+|---|---|
+| `"sign"`       | 2-cell badge in the sign column on the cursor line           |
+| `"numhl"`      | Colors the cursor line's number — no label, never conflicts  |
+| `"inline"`     | Virtual text at end of the current line                       |
+| `"right_align"`| Virtual text pinned to the right edge of the window          |
+| `"left_align"` | Virtual text overlaid at column 0 of the cursor line         |
+| `"cursor"`     | Bordered float right after the line-number gutter            |
+| `"bottomright"` `"bottomleft"` `"bottomcenter"` | Bordered float at a corner / edge |
+| `"topright"` `"topleft"` `"topcenter"` | Same, anchored to the top |
+
+**Conflict with gitsigns / other sign plugins**
+
+`position = "sign"` claims the cursor line's sign slot. If Neovim is configured
+for a single sign per line (the default), it will hide the gitsigns indicator
+on the line you're editing. Either:
+
+- widen the sign column: `vim.opt.signcolumn = "yes:2"` (both signs coexist), or
+- lower kovim's priority: `sign_priority = 5` (gitsigns wins on changed lines), or
+- switch to `position = "numhl"` (color-only, never touches the sign column).
 
 ### Commands
 
