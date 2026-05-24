@@ -1,5 +1,6 @@
 local config = require("kovim.config")
 local client = require("kovim.client")
+local banner = require("kovim.banner")
 
 local M = {}
 
@@ -15,6 +16,7 @@ function M.setup(opts)
       group = group,
       callback = function()
         client.normal()
+        banner.hide()
       end,
       desc = "KoVim: switch IME to English after leaving insert mode",
     })
@@ -25,8 +27,35 @@ function M.setup(opts)
       group = group,
       callback = function()
         client.insert()
+        banner.show()
       end,
       desc = "KoVim: restore previous IME when entering insert mode",
+    })
+  elseif config.options.banner and config.options.banner.enabled then
+    vim.api.nvim_create_autocmd("InsertEnter", {
+      group = group,
+      callback = function() banner.show() end,
+      desc = "KoVim: show IME banner on insert",
+    })
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      group = group,
+      callback = function() banner.hide() end,
+      desc = "KoVim: hide IME banner on insert leave",
+    })
+  end
+
+  vim.api.nvim_create_autocmd("VimResized", {
+    group = group,
+    callback = function() banner.refresh_position() end,
+    desc = "KoVim: reposition IME banner on resize",
+  })
+
+  if config.options.banner and config.options.banner.enabled
+      and banner.is_cursor_follow() then
+    vim.api.nvim_create_autocmd("CursorMovedI", {
+      group = group,
+      callback = function() banner.refresh_position() end,
+      desc = "KoVim: follow cursor with IME banner",
     })
   end
 
