@@ -3,7 +3,7 @@
   "displayName": "KoVim",
   "description": "Automatic Korean/English IME switching for Korean-English Vim users on macOS",
   "version": "0.1.0",
-  "publisher": "earendil",
+  "publisher": "son-do",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"

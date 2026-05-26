@@ -231,12 +231,12 @@ function promptVSCodeVimSetupIfNeeded() {
   if (!vimExt) return;
 
   const vimCfg = vscode.workspace.getConfiguration("vim", null);
-  const existing: Record<string, unknown>[] =
+  const existingNormal: Record<string, unknown>[] =
     vimCfg.get<Record<string, unknown>[]>(
       "normalModeKeyBindingsNonRecursive",
     ) ?? [];
 
-  const alreadyConfigured = existing.some(
+  const alreadyConfigured = existingNormal.some(
     (b) =>
       Array.isArray(b.commands) &&
       (b.commands as string[]).includes("kovim.modeInsert"),

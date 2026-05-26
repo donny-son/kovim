@@ -265,9 +265,18 @@ account required. Reload VSCode afterwards
   "kovim.enabled": true,
   "kovim.endpoint": "http://127.0.0.1:57321",
   "kovim.restorePreviousOnInsert": true,
-  "kovim.debug": false
+  "kovim.debug": false,
 }
 ```
+
+#### Overview of settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `kovim.enabled` | `true` | Master switch for automatic IME switching |
+| `kovim.endpoint` | `http://127.0.0.1:57321` | Local API endpoint of the KoVim agent |
+| `kovim.restorePreviousOnInsert` | `true` | Restore the previous IME when entering insert mode |
+| `kovim.debug` | `false` | Enable debug output in the **KoVim** output channel |
 
 The status bar shows ⌨︎ KoVim when the agent is connected, ⌨︎ KoVim ✕ when it is offline.
 
