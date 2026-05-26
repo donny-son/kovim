@@ -155,8 +155,8 @@ require("kovim").setup({
 
   banner = {
     enabled  = true,
-    position = "sign",   -- see "Banner" below for all positions
-    style    = "flag",   -- "text" (EN/한/あ/中) or "flag" (🇺🇸/🇰🇷/🇯🇵/🇨🇳)
+    position = "bottomright", -- "bottomright", "sign", "numhl", "inline", etc.
+    style    = "text",   -- "text" (EN/한/あ/中) or "flag" (🇺🇸/🇰🇷/🇯🇵/🇨🇳)
   },
 })
 ```
@@ -170,7 +170,7 @@ and updates the indicator wherever you placed it.
 ```lua
 banner = {
   enabled       = true,
-  position      = "sign",  -- see table below
+  position      = "bottomright",
   style         = "text",  -- "text" or "flag"
   labels        = {},      -- override individual labels, e.g. { korean = "🇰🇷" }
   interval_ms   = 250,
@@ -349,6 +349,19 @@ Example:
 curl -s http://127.0.0.1:57321/health | jq
 curl -s -X POST http://127.0.0.1:57321/mode/normal
 ```
+
+---
+
+## Developer Guide & Contributing
+
+For developers looking to compile KoVim from source, write editor extensions, inspect local HTTP API endpoints, or contribute to the project, please consult our comprehensive [Developer Guide (DEVELOPMENT.md)](./DEVELOPMENT.md).
+
+It contains detailed descriptions of:
+- **System Architecture**: Detailed layout of global event taps and asynchronous state updates.
+- **Local API Reference**: Complete REST specs with sample request/response payloads.
+- **Building from Source**: Compilation guidelines for Swift and VSCode/TypeScript targets.
+- **Sandbox & Permissions**: In-depth explanations of macOS security, accessibility, and code-signing constraints.
+- **Debugging Workflows**: Step-by-step troubleshooting configurations.
 
 ---
 
