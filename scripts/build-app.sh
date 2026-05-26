@@ -33,7 +33,7 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key>
   <string>KoVim</string>
   <key>CFBundleIdentifier</key>
-  <string>works.earendil.kovim</string>
+  <string>do.son.kovim</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleIconFile</key>
