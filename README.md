@@ -1,10 +1,9 @@
 # 🐽 KoVim 코빔
 
 > "코" is Nose in Korean
-
-https://github.com/user-attachments/assets/1c9d27e6-e921-4f3a-b3bd-b18e0d0ba799
-
 > Automatic Korean ↔ English IME switching for Korean–English Neovim, VSCode Vim plugin users on macOS.
+
+https://github.com/user-attachments/assets/a42281bb-5557-42a2-b7e6-400a12743d7d
 
 Fixes the most common frustration when writing Korean in Vim:
 
