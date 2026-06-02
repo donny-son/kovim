@@ -89,13 +89,13 @@ function M.health()
     add("✓", "curl " .. (version or "found"))
   end
 
-  -- 2. check if kovim-im is available (optional but nice)
-  local im_check = vim.fn.system({ "kovim-im", "current" })
+  -- 2. check if the kovim CLI is available (optional but nice)
+  local im_check = vim.fn.system({ "kovim", "current" })
   if vim.v.shell_error ~= 0 then
-    add("⚠", "kovim-im not found in PATH (optional, used for diagnostics)")
+    add("⚠", "kovim CLI not found in PATH (optional, used for diagnostics)")
   else
     local ime = vim.trim(im_check)
-    add("✓", "kovim-im found, current IME: " .. ime)
+    add("✓", "kovim CLI found, current IME: " .. ime)
   end
 
   -- 3. check if agent is reachable

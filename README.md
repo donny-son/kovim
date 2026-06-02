@@ -62,8 +62,8 @@ bash scripts/install.sh
 
 This will:
 
-1. Build `KoVim.app` and `kovim-im` CLI
-2. Install `kovim-im` to `~/.local/bin/`
+1. Build `KoVim.app` and the `kovim` CLI
+2. Install `kovim` to `~/.local/bin/` (with `kovim-im` kept as an alias)
 3. Install the Neovim plugin and wire it into your plugin manager (see below)
 4. Copy `KoVim.app` to `/Applications/`
 5. Launch the agent
@@ -315,19 +315,39 @@ The agent config lives at `~/.config/kovim/config.json` and is created with defa
 ```
 
 Set `englishInputSourceId` explicitly if the agent cannot auto-detect your English layout.  
-Run `kovim-im sources` to list all available IDs.
+Run `kovim sources` to list all available IDs.
 
 ---
 
 ## CLI reference
 
-`kovim-im` is a small helper that ships with the agent for diagnostics:
+`kovim` ships with the agent and controls both the menubar agent and the macOS
+input sources. (`kovim-im` remains as an alias for backward compatibility.)
+
+Control the menubar agent:
 
 ```bash
-kovim-im current            # print current input source ID
-kovim-im english            # print the likely English input source ID
-kovim-im sources            # list all selectable input sources
-kovim-im select <id>        # switch to a specific input source
+kovim start                 # launch the menubar agent
+kovim stop                  # quit the running agent
+kovim restart               # restart the agent
+kovim status                # show agent + IME status
+kovim logs -f               # follow the agent log
+```
+
+Switch IME mode through the running agent:
+
+```bash
+kovim normal                # snapshot IME → switch to English (normal mode)
+kovim insert                # restore the snapshotted IME (insert mode)
+```
+
+Inspect input sources directly (no agent required):
+
+```bash
+kovim current               # print current input source ID
+kovim english               # print the likely English input source ID
+kovim sources               # list all selectable input sources
+kovim select <id>           # switch to a specific input source
 ```
 
 ---
@@ -359,7 +379,7 @@ curl -s -X POST http://127.0.0.1:57321/mode/normal
 
 ```
 kovim/
-  cli/                    kovim-im.swift          IME CLI helper
+  cli/                    kovim.swift             agent + IME control CLI
   Sources/KovimAgent/     Swift macOS agent
     KovimAgent.swift      AppDelegate, entry point
     InputSourceManager.swift
