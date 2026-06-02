@@ -65,15 +65,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let button = statusItem.button {
-            // Load the logo as a template image so it adapts to light / dark mode.
-            if let img = Bundle.main.image(forResource: "menubar") {
-                img.isTemplate = true
-                button.image = img
-                button.imagePosition = .imageLeft
-                button.imageScaling = .scaleProportionallyDown
-            }
-        }
+        // Force the item visible on every launch so a previous "removed from
+        // the menu bar" (Cmd-drag) state can't keep it hidden, and give it a
+        // stable autosave slot.
+        statusItem.autosaveName = "KoVim"
+        statusItem.isVisible = true
+        statusItem.button?.title = "🐽"
         updateMenu()
     }
 
@@ -84,8 +81,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Update the menu-bar button to reflect permission state.
         if let button = statusItem.button {
             let allGranted = permissionsController.allGranted
-            // Show a warning badge in the title when permissions are missing.
-            button.title = allGranted ? "" : " ⚠"
+            // Show the 🐽 logo, with a warning badge when permissions are missing.
+            button.title = allGranted ? "🐽" : "🐽 ⚠"
             button.toolTip = allGranted
                 ? "KoVim"
                 : "KoVim — permissions required. Click \"Setup Permissions…\" below."
@@ -170,7 +167,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let script = """
         tell application "Terminal"
           activate
-          do script "~/.local/bin/kovim-im sources"
+          do script "~/.local/bin/kovim sources"
         end tell
         """
         var error: NSDictionary?
