@@ -11,17 +11,19 @@ RESOURCES="$CONTENTS/Resources"
 
 cd "$ROOT"
 swift build -c "$CONFIGURATION" --product kovim-agent
-swift build -c "$CONFIGURATION" --product kovim-im
+swift build -c "$CONFIGURATION" --product kovim
 
 rm -rf "$BUNDLE_DIR"
 mkdir -p "$MACOS" "$RESOURCES"
+# NOTE: do not also copy the `kovim` CLI here — macOS's case-insensitive
+# filesystem treats "kovim" and "KoVim" as the same path, so it would clobber
+# the agent executable. The CLI is installed separately to ~/.local/bin.
 cp "$ROOT/.build/$CONFIGURATION/kovim-agent" "$MACOS/KoVim"
-cp "$ROOT/.build/$CONFIGURATION/kovim-im" "$MACOS/kovim-im"
 
 # ── Resources ────────────────────────────────────────────────────────────────
+# The menu-bar logo is drawn as the 🐽 emoji in the agent, so only the app icon
+# needs bundling.
 cp "$ROOT/assets/AppIcon.icns"  "$RESOURCES/AppIcon.icns"
-cp "$ROOT/assets/menubar.png"   "$RESOURCES/menubar.png"
-cp "$ROOT/assets/menubar@2x.png" "$RESOURCES/menubar@2x.png"
 
 cat > "$CONTENTS/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>

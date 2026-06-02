@@ -8,7 +8,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "kovim-agent", targets: ["KovimAgent"]),
-        .executable(name: "kovim-im", targets: ["KovimIM"])
+        .executable(name: "kovim", targets: ["Kovim"])
     ],
     targets: [
         .executableTarget(
@@ -16,7 +16,7 @@ let package = Package(
             path: "Sources/KovimAgent"
         ),
         .executableTarget(
-            name: "KovimIM",
+            name: "Kovim",
             path: "cli"
         )
     ]

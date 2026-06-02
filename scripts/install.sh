@@ -15,18 +15,20 @@ warn() { echo "  ⚠ $*"; }
 
 # ─── 1. Build binaries ───────────────────────────────────────────────────────
 
-step "Building kovim-agent and kovim-im..."
+step "Building kovim-agent and kovim CLI..."
 cd "$ROOT"
 bash "$ROOT/scripts/build-app.sh"
 ok "App bundle: $ROOT/.build/KoVim.app"
 
-# ─── 2. Install kovim-im CLI ────────────────────────────────────────────────
+# ─── 2. Install kovim CLI ────────────────────────────────────────────────────
 
-step "Installing kovim-im CLI → $KOVIM_BIN_DIR/kovim-im"
+step "Installing kovim CLI → $KOVIM_BIN_DIR/kovim"
 mkdir -p "$KOVIM_BIN_DIR"
-cp "$ROOT/.build/release/kovim-im" "$KOVIM_BIN_DIR/kovim-im"
-chmod +x "$KOVIM_BIN_DIR/kovim-im"
-ok "kovim-im installed"
+cp "$ROOT/.build/release/kovim" "$KOVIM_BIN_DIR/kovim"
+chmod +x "$KOVIM_BIN_DIR/kovim"
+# Backward-compat alias for older callers that still invoke `kovim-im`.
+ln -sf "kovim" "$KOVIM_BIN_DIR/kovim-im"
+ok "kovim installed (kovim-im kept as an alias)"
 
 if ! echo "$PATH" | grep -q "$KOVIM_BIN_DIR"; then
   warn "$KOVIM_BIN_DIR is not in your PATH."
